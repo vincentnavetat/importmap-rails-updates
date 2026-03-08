@@ -21,15 +21,18 @@ class ImportmapUpdater
   private
 
   def branch_exists?(branch)
-    local, = Open3.capture2("git branch --list #{branch}")
+    # Remove command injection risk by not interpolating the branch name
+    local, = Open3.capture2("git", "branch", "--list", branch)
     return true unless local.strip.empty?
 
-    remote, = Open3.capture2("git ls-remote --heads origin #{branch}")
+    # Remove command injection risk by not interpolating the branch name
+    remote, = Open3.capture2("git", "ls-remote", "--heads", "origin", branch)
     !remote.strip.empty?
   end
 
   def pr_exists?(branch)
-    stdout, = Open3.capture2("gh pr list --head #{branch} --json number")
+    # Remove command injection risk by not interpolating the branch name
+    stdout, = Open3.capture2("gh", "pr", "list", "--head", branch, "--json", "number")
     !stdout.include?("[]")
   end
 
