@@ -1,0 +1,32 @@
+name: Importmap Bumper
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # runs daily at 04:00 UTC
+  workflow_dispatch: # allows manual runs
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Authenticate gh
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+
+      - name: Run importmap bumper
+        run: bundle exec importmap-bumper
