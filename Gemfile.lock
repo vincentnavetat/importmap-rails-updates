@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/vincentnavetat/importmap-bumper.git
-  revision: 49b758d9d4c1bf79b8df183f917bd3816b3b79af
+  revision: f3b73ec1f57bb2108beeb9f28beaa5bd46d1153a
   specs:
     importmap-bumper (0.1.0)
 
